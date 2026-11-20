@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>whip_threecard</title>
+<!-- whip's own typefaces and design tokens, from whip_core: the same look, and a whip theme carries over. -->
+<link rel="stylesheet" href="https://cfx-nui-whip_core/html/css/fonts.css">
+<link rel="stylesheet" href="https://cfx-nui-whip_core/html/css/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="panel" class="hidden">
+    <div class="tc-head">
+        <div class="tc-eyebrow" id="label">Three Card Poker</div>
+        <div class="tc-limits" id="limits"></div>
+    </div>
+
+    <div class="tc-status">
+        <div class="tc-title" id="title">Place your Ante</div>
+        <div class="tc-timer hidden" id="timer"><div class="tc-timer-bar" id="timer-bar"></div></div>
+    </div>
+
+    <div class="tc-row" id="pick-row">
+        <span class="tc-label" id="pick-label">Ante</span>
+        <span class="tc-amount pending" id="pick">$0</span>
+    </div>
+
+    <div class="tc-bets" id="bets"></div>
+
+    <div class="tc-hand hidden" id="mine">
+        <div class="tc-hand-top"><span class="tc-label">Your hand</span><span class="tc-hand-name" id="mine-name"></span></div>
+        <div class="tc-cards" id="mine-cards"></div>
+    </div>
+
+    <div class="tc-hand hidden" id="dealer">
+        <div class="tc-hand-top"><span class="tc-label">Dealer</span><span class="tc-hand-name" id="dealer-name"></span></div>
+        <div class="tc-cards" id="dealer-cards"></div>
+    </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
