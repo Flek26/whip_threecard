@@ -467,10 +467,17 @@ end
 -- Every saved layout, once at start (and after a whip_core restart).
 Whip.register(function()
     CreateThread(function()
-        local all = exports.whip_core:Callback('whip_threecard:layouts')
-        if type(all) ~= 'table' then return end
-        Layouts = all
-        for _, L in pairs(Live) do refresh(L) end
+        -- Asked again if the server wasn't ready (both restarting at once).
+        for _ = 1, 10 do
+            local all = exports.whip_core:Callback('whip_threecard:layouts')
+            if type(all) == 'table' then
+                for m, data in pairs(all) do Layouts[m] = data end
+                for _, L in pairs(Live) do refresh(L) end
+                return
+            end
+            Wait(3000)
+        end
+        print('[whip_threecard] could not get the saved layouts from the server: tables use them once you go near')
     end)
 end)
 
@@ -726,6 +733,7 @@ local function goLive(id, def)
     chairPrompts(L)
     local snap = exports.whip_core:Callback('whip_threecard:snapshot', id)
     if Live[id] ~= L then return end
+    if type(snap) == 'table' and type(snap.layout) == 'table' then Layouts[def.model] = snap.layout end
     -- The dealer the server chose for this table this time (the same in every game).
     makeDealer(L, type(snap) == 'table' and snap.look or nil)
     if type(snap) == 'table' and snap.deckHeld then deckInHand(L) else deckOnTable(L) end

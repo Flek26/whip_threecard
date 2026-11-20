@@ -116,7 +116,9 @@ local function snapshot(T, src)
     if #T.dealer.cards > 0 and not T.dealer.cleared then
         dealer = T.dealer.shown and T.dealer.cards or HIDDEN
     end
-    return { seats = seats, hands = hands, dealer = dealer, look = T.look, deckHeld = T.deckHeld == true }
+    -- The table's layout comes with it: a game never draws a table without the saved spots.
+    return { seats = seats, hands = hands, dealer = dealer, look = T.look, deckHeld = T.deckHeld == true,
+             layout = LayoutOf(T.def.model) }
 end
 
 -- ============================================
@@ -377,6 +379,8 @@ do
         else print('[whip_threecard] layout.json could not be read: ' .. tostring(v)) end
     end
 end
+
+function LayoutOf(model) return Layouts[model] end
 
 -- Only numbers in the shapes we use, so a bad send can't write rubbish into the file: x, y, z within 50 m of the
 -- table, and a turn in degrees.
